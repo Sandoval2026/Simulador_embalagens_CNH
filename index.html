@@ -174,74 +174,12 @@
 </div>
 
 <script>
-  <!-- PapaParse via CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <script>
-    let FORNECEDORES = {};
-    let VEICULOS = [];
-
     async function carregarDados() {
-      const URL_PLANILHA = "https://docs.google.com/spreadsheets/d/1edVxMUyt2BpVspTPsjjTflJWN81k4IlFemjJDdDPjGY/gviz/tq?tqx=out:csv&gid=1832920211";
-      
-      const resp = await fetch(URL_PLANILHA);
-      const csv = await resp.text();
-
-      const resultado = Papa.parse(csv, {
-        header: true,
-        skipEmptyLines: true
-      });
-
-      const dados = resultado.data;
-
-      FORNECEDORES = {};
-      VEICULOS = [];
-
-      dados.forEach(linha => {
-        const fornecedor = linha["Fornecedor"];
-        const veiculo = linha["Veiculo"];
-
-        if (!fornecedor || !veiculo) return;
-
-        if (!FORNECEDORES[fornecedor]) {
-          FORNECEDORES[fornecedor] = [];
-        }
-        FORNECEDORES[fornecedor].push(veiculo);
-        VEICULOS.push(veiculo);
-      });
-
-      // Limpar selects antes de repopular
-      const selectFornecedores = document.getElementById("fornecedores");
-      selectFornecedores.innerHTML = "";
-      const selectVeiculos = document.getElementById("veiculos");
-      selectVeiculos.innerHTML = "";
-
-      // Ordenar fornecedores
-      const fornecedoresOrdenados = Object.keys(FORNECEDORES).sort();
-      fornecedoresOrdenados.forEach(f => {
-        const option = document.createElement("option");
-        option.value = f;
-        option.textContent = f;
-        selectFornecedores.appendChild(option);
-      });
-
-      // Veículos únicos e ordenados
-      const veiculosUnicos = [...new Set(VEICULOS)].sort();
-      veiculosUnicos.forEach(v => {
-        const option = document.createElement("option");
-        option.value = v;
-        option.textContent = v;
-        selectVeiculos.appendChild(option);
-      });
-
-      console.log("FORNECEDORES:", FORNECEDORES);
-      console.log("VEICULOS:", VEICULOS);
-    }
-
-    // Carregar ao abrir a página
-    carregarDados();
-
-    // Atualizar automaticamente a cada 60 segundos
-    setInterval(carregarDados, 60000);
+  const URL_PLANILHA = "https://docs.google.com/spreadsheets/d/SEU_ID/export?format=csv&gid=0";
+  const resp = await fetch(URL_PLANILHA);
+  const csv = await resp.text();
+  // processa CSV e monta os objetos FORNECEDORES e VEICULOS
+}
   
 // ---- STATE ----
 let items=[], pending=null;
